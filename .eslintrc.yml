@@ -10,4 +10,23 @@ parserOptions:
 plugins:
   - vue
   - "@typescript-eslint"
-rules: {}
+rules:
+  vue/max-attributes-per-line:
+    - warn
+    - singleline:
+        max: 3
+      multiline:
+        max: 1
+  indent:
+    - warn
+    - 2
+    - SwitchCase: 1
+  linebreak-style:
+    - warn
+    - unix
+  quotes:
+    - warn
+    - single
+  semi:
+    - warn
+    - never

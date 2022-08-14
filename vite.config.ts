@@ -7,9 +7,13 @@ const manifest = defineManifest({
   manifest_version: 3,
   name: "hinatant",
   version: "1.0.0",
-  permissions: ["bookmarks", "tabs"],
+  permissions: ["bookmarks", "tabs", "contextMenus"],
   action: {
     default_popup: "src/popup/index.html",
+  },
+  background: {
+    service_worker: "src/serviceWorker.ts",
+    type: "module",
   },
 });
 

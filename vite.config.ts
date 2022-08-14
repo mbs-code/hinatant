@@ -15,6 +15,7 @@ const manifest = defineManifest({
     service_worker: 'src/serviceWorker.ts',
     type: 'module',
   },
+  options_page: 'src/options/index.html',
 })
 
 // https://vitejs.dev/config/

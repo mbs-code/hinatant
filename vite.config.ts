@@ -12,7 +12,7 @@ const manifest = defineManifest({
     default_popup: 'src/popup/index.html',
   },
   background: {
-    service_worker: 'src/serviceWorker.ts',
+    service_worker: 'src/background/main.ts',
     type: 'module',
   },
   options_page: 'src/options/index.html',

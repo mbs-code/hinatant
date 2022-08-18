@@ -7,7 +7,15 @@ const manifest = defineManifest({
   manifest_version: 3,
   name: 'hinatant',
   version: '1.0.0',
-  permissions: ['bookmarks', 'tabs', 'contextMenus'],
+  permissions: ['bookmarks',
+    'tabs',
+    'contextMenus',
+    'storage',
+    'unlimitedStorage',
+  ],
+  host_permissions: [
+    'https://www.hinatazaka46.com/*',
+  ],
   action: {
     default_popup: 'src/popup/index.html',
   },

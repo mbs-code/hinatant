@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@types/chrome": "^0.0.193",
+    "cheerio": "^1.0.0-rc.12",
+    "date-fns": "^2.29.1",
     "vue": "^3.2.37"
   },
   "devDependencies": {

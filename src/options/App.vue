@@ -1,35 +1,73 @@
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo">
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="../assets/vue.svg" class="logo vue" alt="Vue logo">
-    </a>
+  <div class="flex gap-2">
+    <Button @click="openAlarmEditDoalog()">
+      新規追加
+    </Button>
+
+    <Button @click="onDbSeed">
+      テストDB作成
+    </Button>
   </div>
-  <HelloWorld msg="Options" />
+
+  <div>
+    <template v-for="(alarm, _) of alarms" :key="_">
+      <AlarmPanel :alarm="alarm" @edit="openAlarmEditDoalog(alarm)" />
+    </template>
+  </div>
+
+  <AlarmEditDialog
+    v-model:visible="showAlarmEditDialog"
+    :alarm="selectedAlarm"
+    @saved="fetchAlarms"
+  />
+
+  <Toast />
 </template>
 
 <script setup lang="ts">
-import HelloWorld from '../components/HelloWorld.vue'
+import AlarmPanel from '../components/AlarmPanel.vue'
+import AlarmEditDialog from '../components/AlarmEditDialog.vue'
+import Button from 'primevue/button'
+import Toast from 'primevue/toast'
+
+import { onMounted, ref } from 'vue'
+import { Alarm, useAlarmBucket } from '../composables/storage/useAlarmBucket'
+import { usePassing } from '../composables/usePassing'
+import { useNotify } from '../composables/useNotify'
+
+const notify = useNotify()
+const alarmBucket = useAlarmBucket()
+const alarms = ref<Alarm[]>([])
+
+const fetchAlarms = async () => {
+  try {
+    alarms.value = await alarmBucket.getAll()
+  } catch (err) {
+    notify.thrown(err)
+  }
+}
+
+onMounted(async () => await fetchAlarms())
+
+///
+
+const showAlarmEditDialog = ref<boolean>(false)
+const selectedAlarm = ref<Alarm>()
+
+const openAlarmEditDoalog = (alarm?: Alarm) => {
+  selectedAlarm.value = alarm
+  showAlarmEditDialog.value = true
+}
+
+///
+
+const passing = usePassing()
+const onDbSeed = async () => {
+  try {
+    await passing.dbSeed()
+    await fetchAlarms()
+  } catch (err) {
+    notify.thrown(err)
+  }
+}
 </script>
-
-<style scoped>
-div {
-  background: #ffc0cb;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>

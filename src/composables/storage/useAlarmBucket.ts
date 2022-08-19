@@ -14,7 +14,8 @@ export type AlarmParam = {
   weekOfDays: number[] // 0-6
   dates: string[] // YYYY-mm-dd[]
   time: string // HH:mm
-  beforeNotifySec: number // default: 0, マイナスで逆方向
+
+  beforeNotifyMin: number // default: 0, マイナスで逆方向
   isAutoOpen: boolean
 
   cases: AlarmCase[]
@@ -41,19 +42,22 @@ export const useAlarmBucket = () => {
     // alarm の作成
     const maxId = alarms.reduce((prev, al) => Math.max(prev, al.id), 0)
     const date = new Date()
+    const copyParam = JSON.parse(JSON.stringify(param)) // Proxy 解除
     const newAlarm: Alarm = {
-      ...param,
+      ...copyParam,
       id: maxId + 1,
       sort: maxId + 1,
       createdAt: formatISO9075(date),
       updatedAt: formatISO9075(date),
     }
 
-    // name が重複していないか確認
+    // ！ name が重複していないか確認
     const existName = alarms.find((al) => al.name === newAlarm.name)
-    if (existName) {
-      throw new Error('名前が重複しています')
-    }
+    if (existName) { throw new Error('名前が重複しています') }
+
+    // ！ 必須要素が存在するか確認
+    if (!newAlarm.name?.trim()) { throw new Error('名前を入力してください' )}
+    if (!newAlarm.time?.trim()) { throw new Error('時間を入力してください' )}
 
     // 追加する
     alarms.push(newAlarm)
@@ -75,8 +79,9 @@ export const useAlarmBucket = () => {
 
     // alarm の更新
     const date = new Date()
+    const copyParam = JSON.parse(JSON.stringify(param)) // Proxy 解除
     const updAlarm: Alarm = {
-      ...param,
+      ...copyParam,
       id: alarm.id,
       sort: alarm.sort,
       createdAt: alarm.createdAt,

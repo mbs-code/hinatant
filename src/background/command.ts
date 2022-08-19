@@ -9,13 +9,13 @@ export const commands = {
         url: 'https://www.hinatazaka46.com/s/official/?ima=0000',
         note: 'めもだよー\n改行実験',
 
-        weekOfdays: [0, 6],
+        weekOfDays: [0, 6],
         dates: ['2022-08-20'],
         time: '20:00',
         beforeNotifySec: 60,
         isAutoOpen: false,
 
-        case: [
+        cases: [
           { date: '2022-08-14', overwriteTime: '20:00', note: '時間変更' },
           { date: '2022-08-21', overwriteTime: null, note: '中止' },
         ],

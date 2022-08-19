@@ -7,9 +7,9 @@ const manifest = defineManifest({
   manifest_version: 3,
   name: 'hinatant',
   version: '1.0.0',
-  permissions: ['bookmarks',
+  permissions: [
+    'bookmarks',
     'tabs',
-    'contextMenus',
     'storage',
     'unlimitedStorage',
   ],

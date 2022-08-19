@@ -1,15 +1,5 @@
 import { commands, CommandName } from './command'
 
-chrome.runtime.onInstalled.addListener(() => {
-  console.log('init')
-
-  chrome.contextMenus.create({
-    id: 'sampleContextMenu',
-    title: 'Sample Context Menu',
-    contexts: ['all'],
-  })
-})
-
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   (async function() {
     try {

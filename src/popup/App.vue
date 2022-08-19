@@ -17,7 +17,6 @@ const alarmBucket = useAlarmBucket()
 const alarms = ref<Alarm[]>([])
 
 const fetchAlarms = async () => {
-  console.log('[front] reload alarms')
   try {
     alarms.value = await alarmBucket.getAll()
   } catch (err) {

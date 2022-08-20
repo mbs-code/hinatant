@@ -1,0 +1,25 @@
+html {
+  min-width: 320px;
+}
+
+.field-horizontal {
+  margin-bottom: 0.5rem;
+
+  label {
+    margin-bottom: 0;
+  }
+}
+
+.p-dialog {
+  .p-dialog-header {
+    padding: 1rem;
+    border-bottom: var(--surface-border) 1px solid;
+  }
+  .p-dialog-content {
+    padding: 1rem;
+  }
+  .p-dialog-footer {
+    padding: 1rem;
+    border-top: var(--surface-border) 1px solid;
+  }
+}

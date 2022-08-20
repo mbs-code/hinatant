@@ -71,34 +71,19 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
       return nextCalledAt && nextCalledAt <= now
     })
 
+  console.log('[back] targetAlarm:', calledAlarms.length)
   if (calledAlarms.length) {
-    // TODO: 自動起動
-    await chrome.tabs.create({ 'url': 'https://google.com' })
+    // TODO: 自動起動未実装
+
+    const alarmIds = calledAlarms.map(alarm => alarm.id)
+    const params = new URLSearchParams({
+      date: String(new Date().getTime()),
+      alarms: JSON.stringify(alarmIds),
+    })
+
+    await chrome.tabs.create({ 'url': `/src/toast/index.html?${params.toString()}` })
   }
 
-  console.log(calledAlarms)
-
-  // await chrome.tabs.create({ 'url': '/src/toast/index.html' })
-  // await chrome.tabs.create({ 'url': 'https://google.com' })
-  // console.log('create')
-
-
-
+  // 実行記録を付ける
   await runtimeBucket.setLastCalledAt(now)
 })
-
-// const alarmIds = [1, 2, 3]
-// // const url = new URL('/src/toast/index.html')
-// // console.log(url)
-// const params = new URLSearchParams({
-//   alarms: JSON.stringify(alarmIds),
-//   date: formatISO9075(new Date()),
-// })
-// console.log(params.toString())
-
-// // params.
-
-// myUrlWithParams.searchParams.append('alarms', JSON.stringify(alarmIds))
-// myUrlWithParams.searchParams.append('date', formatISO9075(new Date()))
-
-// console.log(myUrlWithParams.href)

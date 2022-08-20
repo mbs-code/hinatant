@@ -29,4 +29,12 @@ const manifest = defineManifest({
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue(), crx({ manifest })],
+
+  build: {
+    rollupOptions: {
+      input: {
+        notify: 'src/notify/index.html',
+      },
+    },
+  },
 })

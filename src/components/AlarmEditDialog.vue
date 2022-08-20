@@ -7,14 +7,14 @@
     modal
   >
     <div class="field grid field-horizontal">
-      <label>名前</label>
+      <label>名前*</label>
       <div class="col">
         <InputText v-model="form.name" class="w-full" autofocus />
       </div>
     </div>
 
     <div class="field grid field-horizontal">
-      <label>時間</label>
+      <label>時間*</label>
       <div class="col col-narrow">
         <div class="p-inputgroup">
           <span class="p-inputgroup-addon">
@@ -125,6 +125,9 @@
 
     <template #footer>
       <div class="flex">
+        <Button class="p-button-text p-button-danger" @click="onDelete">
+          Delete
+        </Button>
         <Button class="p-button-text p-button-plain" @click="onInit">
           Reset
         </Button>
@@ -158,9 +161,8 @@ import { // TODO: この辺 composable 化する
   formatDistanceToNow,
 } from 'date-fns'
 import { ja } from 'date-fns/locale'
-import { useNotify } from '../composables/useNotify'
-
-const notify = useNotify()
+import { useAppToast } from '../composables/useAppToast'
+import { useConfirm } from 'primevue/useconfirm'
 
 const props = defineProps<{
   visible: boolean,
@@ -169,7 +171,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'update:visible', value: boolean): void
-  (e: 'saved', value: Alarm): void
+  (e: 'change'): void
 }>()
 
 const _visible = computed({
@@ -248,20 +250,47 @@ const onInit = () => {
 
 watch(_visible, (val) => val && onInit())
 
+///
+
+const appToast = useAppToast()
+const confirm = useConfirm()
 const alarmBucket = useAlarmBucket()
 const onSave = async () => {
   try {
     const alarmId = props.alarm?.id
-    const alarm = alarmId
+    alarmId
       ? await alarmBucket.update(alarmId, form)
       : await alarmBucket.create(form)
 
-    emit('saved', alarm)
-    notify.success('保存しました。')
+    emit('change')
+    appToast.success('保存しました。')
     _visible.value = false
   } catch (err) {
-    notify.thrown(err)
+    appToast.thrown(err)
   }
+}
+
+const onDelete = async () => {
+  const alarmId = props.alarm?.id
+  if (!alarmId) return
+
+  confirm.require({
+    message: 'このレコードを削除しますか？',
+    header: '確認',
+    icon: 'pi pi-info-circle',
+    acceptClass: 'p-button-danger',
+    accept: async () => {
+      try {
+        await alarmBucket.remove(alarmId)
+
+        emit('change')
+        appToast.success('削除しました。')
+        _visible.value = false
+      } catch (err) {
+        appToast.thrown(err)
+      }
+    },
+  })
 }
 </script>
 

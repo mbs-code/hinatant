@@ -18,10 +18,11 @@
   <AlarmEditDialog
     v-model:visible="showAlarmEditDialog"
     :alarm="selectedAlarm"
-    @saved="fetchAlarms"
+    @change="fetchAlarms"
   />
 
   <Toast />
+  <ConfirmDialog />
 </template>
 
 <script setup lang="ts">
@@ -29,13 +30,14 @@ import AlarmPanel from '../components/AlarmPanel.vue'
 import AlarmEditDialog from '../components/AlarmEditDialog.vue'
 import Button from 'primevue/button'
 import Toast from 'primevue/toast'
+import ConfirmDialog from 'primevue/confirmdialog'
 
 import { onMounted, ref } from 'vue'
 import { Alarm, useAlarmBucket } from '../composables/storage/useAlarmBucket'
 import { usePassing } from '../composables/usePassing'
-import { useNotify } from '../composables/useNotify'
+import { useAppToast } from '../composables/useAppToast'
 
-const notify = useNotify()
+const appToast = useAppToast()
 const alarmBucket = useAlarmBucket()
 const alarms = ref<Alarm[]>([])
 
@@ -43,7 +45,7 @@ const fetchAlarms = async () => {
   try {
     alarms.value = await alarmBucket.getAll()
   } catch (err) {
-    notify.thrown(err)
+    appToast.thrown(err)
   }
 }
 
@@ -67,7 +69,7 @@ const onDbSeed = async () => {
     await passing.dbSeed()
     await fetchAlarms()
   } catch (err) {
-    notify.thrown(err)
+    appToast.thrown(err)
   }
 }
 </script>

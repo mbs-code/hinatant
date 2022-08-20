@@ -29,6 +29,16 @@ export type Alarm = AlarmParam & {
   updatedAt: string
 }
 
+const validate = (alarms: Alarm[], alarm: Alarm) => {
+  // ！ name が重複していないか確認
+  const existName = alarms.find((al) => al.id !== alarm.id && al.name === alarm.name)
+  if (existName) { throw new Error('名前が重複しています') }
+
+  // ！ 必須要素が存在するか確認
+  if (!alarm.name?.trim()) { throw new Error('名前を入力してください' )}
+  if (!alarm.time?.trim()) { throw new Error('時間を入力してください' )}
+}
+
 export const useAlarmBucket = () => {
   const getAll = async (): Promise<Alarm[]> => {
     const bucket = await chrome.storage.local.get()
@@ -51,13 +61,8 @@ export const useAlarmBucket = () => {
       updatedAt: formatISO9075(date),
     }
 
-    // ！ name が重複していないか確認
-    const existName = alarms.find((al) => al.name === newAlarm.name)
-    if (existName) { throw new Error('名前が重複しています') }
-
-    // ！ 必須要素が存在するか確認
-    if (!newAlarm.name?.trim()) { throw new Error('名前を入力してください' )}
-    if (!newAlarm.time?.trim()) { throw new Error('時間を入力してください' )}
+    // バリデする
+    validate(alarms, newAlarm)
 
     // 追加する
     alarms.push(newAlarm)
@@ -88,6 +93,9 @@ export const useAlarmBucket = () => {
       updatedAt: formatISO9075(date),
     }
 
+    // バリデする
+    validate(alarms, updAlarm)
+
     // 置き換える
     alarms.splice(alarmIndex, 1, updAlarm)
     await chrome.storage.local.set({ alarms })
@@ -107,6 +115,7 @@ export const useAlarmBucket = () => {
 
     // 削除する
     alarms.splice(alarmIndex, 1)
+    await chrome.storage.local.set({ alarms })
 
     return true
   }

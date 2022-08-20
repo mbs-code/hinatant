@@ -1,6 +1,6 @@
 import { useToast } from 'primevue/usetoast'
 
-export const useNotify = () => {
+export const useAppToast = () => {
   const toast = useToast()
 
   const success = (message: string) => {

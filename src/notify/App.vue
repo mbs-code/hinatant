@@ -22,18 +22,14 @@
   </div>
 
   <pre>{{ params }}</pre>
-
-  <Toast />
 </template>
 
 <script setup lang="ts">
 import Button from 'primevue/button'
-import Toast from 'primevue/toast'
 import NotifyAlarmCard from '../components/notify/NotifyAlarmCard.vue'
 
 import { onMounted, reactive } from 'vue'
 import { Alarm, useAlarmBucket } from '../composables/storage/useAlarmBucket'
-import { useAppToast } from '../composables/useAppToast'
 import NotifyTimeCard from '../components/notify/NotifyTimeCard.vue'
 
 // URL params
@@ -44,7 +40,6 @@ const params = reactive<{
 }>({})
 
 const alarmBucket = useAlarmBucket()
-const appToast = useAppToast()
 
 onMounted(async () => {
   try {
@@ -73,7 +68,7 @@ onMounted(async () => {
       params.alarms = await alarmBucket.getAll(alarmIds)
     }
   } catch (err) {
-    appToast.thrown(err)
+    window.alert(err)
   }
 })
 

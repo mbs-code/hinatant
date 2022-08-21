@@ -1,16 +1,14 @@
 <template>
   <div class="flex justify-content-center">
-    <div class="flex flex-column gap-2 col-12 md:col-10 lg:col-8 xl:col-8">
+    <div class="flex flex-column gap-4 col-12 md:col-10 lg:col-8 xl:col-8">
       <NotifyTimeCard :date="params.invokeDate" />
 
-      <div class="my-3">
-        <template v-for="(alarm, _) of params.alarms" :key="_">
-          <NotifyAlarmCard
-            :alarm="alarm"
-            :base-date="params.lastCalledDate"
-          />
-        </template>
-      </div>
+      <template v-for="(alarm, _) of params.alarms" :key="_">
+        <NotifyAlarmCard
+          :alarm="alarm"
+          :base-date="params.lastCalledDate"
+        />
+      </template>
 
       <Button
         class="p-button-raised p-button-text"
@@ -26,6 +24,7 @@
 
 <script setup lang="ts">
 import Button from 'primevue/button'
+import Toast from 'primevue/toast'
 import NotifyAlarmCard from '../components/notify/NotifyAlarmCard.vue'
 
 import { onMounted, reactive } from 'vue'

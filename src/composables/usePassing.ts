@@ -8,7 +8,16 @@ export const usePassing = () => {
     return res as boolean
   }
 
+  const openOptionsPage = async () => {
+    return new Promise((resolve) => {
+      chrome.runtime.openOptionsPage(() => {
+        resolve(undefined)
+      })
+    })
+  }
+
   return {
     dbSeed,
+    openOptionsPage,
   }
 }

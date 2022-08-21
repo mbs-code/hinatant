@@ -67,7 +67,9 @@ onMounted(async () => {
     // 対象の alarm を取り出す
     const alarms = sp.get('alarms')
     if (alarms) {
-      const alarmIds = JSON.parse(alarms)
+      const alarmIds = alarms.split(',')
+        .map(id => Number(id))
+        .filter((x, i, self) => self.indexOf(x) === i)
       params.alarms = await alarmBucket.getAll(alarmIds)
     }
   } catch (err) {

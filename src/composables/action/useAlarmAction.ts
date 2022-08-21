@@ -59,7 +59,7 @@ export const useAlarmAction = () => {
     const params = new URLSearchParams({
       last_called_at: String(lastCalledDate.getTime()),
       invoke_at: String(invokeDate.getTime()),
-      alarms: JSON.stringify(alarmIds),
+      alarms: alarmIds.join(','),
     })
 
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })

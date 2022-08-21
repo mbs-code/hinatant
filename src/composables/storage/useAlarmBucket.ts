@@ -2,7 +2,7 @@ import { formatISO9075 } from 'date-fns'
 
 export type AlarmCase = {
   date: string
-  overwriteTime: string
+  overwriteTime?: string // undefined はスキップ
   note?: string
 }
 

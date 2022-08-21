@@ -87,8 +87,8 @@ import Column from 'primevue/column'
 import Button from 'primevue/button'
 
 import { computed } from 'vue'
-import { Alarm } from '../composables/storage/useAlarmBucket'
-import { useAlarmAction } from '../composables/action/useAlarmAction'
+import { Alarm } from '../../composables/storage/useAlarmBucket'
+import { useAlarmAction } from '../../composables/action/useAlarmAction'
 import { // TODO: この辺 composable 化する
   format as dateFormat,
   formatDistance,

@@ -23,13 +23,12 @@ export const useOgParser = () => {
       const doc = (new DOMParser()).parseFromString(body, 'text/html')
 
       // 解析する
-      let ogUrl = doc.querySelector<HTMLMetaElement>('meta[property="og:url"]')?.content
+      const ogUrl = url // url は上書きされる可能性があるため、元のもの
       let ogTitle = doc.querySelector<HTMLMetaElement>('meta[property="og:title"]')?.content
       let ogDescription = doc.querySelector<HTMLMetaElement>('meta[property="og:description"]')?.content
       const ogSiteName = doc.querySelector<HTMLMetaElement>('meta[property="og:site_name"]')?.content
       const ogImage = doc.querySelector<HTMLMetaElement>('meta[property="og:image"]')?.content
 
-      if (!ogUrl) { ogUrl = url }
       if (!ogTitle) { ogTitle = doc.querySelector<HTMLMetaElement>('title')?.textContent ?? undefined }
       if (!ogDescription) { ogDescription = doc.querySelector<HTMLMetaElement>('neta[name="description"]')?.content }
 

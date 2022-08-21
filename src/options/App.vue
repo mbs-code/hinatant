@@ -1,10 +1,4 @@
 <template>
-  <div class="flex gap-2">
-    <Button @click="onDbSeed">
-      テストDB作成
-    </Button>
-  </div>
-
   <AlarmTable
     :alarms="alarms"
     @edit="openAlarmEditDialog($event)"
@@ -12,6 +6,13 @@
   />
 
   <pre>{{ alarms }}</pre>
+
+  <div class="flex gap-2">
+    <Button @click="onDbSeed">
+      テストDB作成
+    </Button>
+  </div>
+
 
   <AlarmEditDialog
     v-model:visible="showAlarmEditDialog"
@@ -24,16 +25,16 @@
 </template>
 
 <script setup lang="ts">
-import AlarmEditDialog from '../components/AlarmEditDialog.vue'
+import AlarmEditDialog from '../components/alarm/AlarmEditDialog.vue'
 import Button from 'primevue/button'
 import Toast from 'primevue/toast'
 import ConfirmDialog from 'primevue/confirmdialog'
+import AlarmTable from '../components/alarm/AlarmTable.vue'
 
 import { onMounted, ref } from 'vue'
 import { Alarm, useAlarmBucket } from '../composables/storage/useAlarmBucket'
 import { usePassing } from '../composables/usePassing'
 import { useAppToast } from '../composables/useAppToast'
-import AlarmTable from '../components/AlarmTable.vue'
 
 const appToast = useAppToast()
 const alarmBucket = useAlarmBucket()

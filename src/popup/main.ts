@@ -1,5 +1,13 @@
 import { createApp } from 'vue'
-import './style.css'
 import App from './App.vue'
+import PrimeVue from 'primevue/config'
+// import ToastService from 'primevue/toastservice'
+// import ConfirmationService from 'primevue/confirmationservice'
 
-createApp(App).mount('#app')
+import '../assets/css/style.scss'
+
+createApp(App)
+  .use(PrimeVue)
+  // .use(ToastService)
+  // .use(ConfirmationService)
+  .mount('#app')

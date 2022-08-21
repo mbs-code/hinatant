@@ -99,5 +99,9 @@ const noteBlocks = computed(() => {
 <style scoped lang="scss">
 .p-card {
   border: 2px solid var(--yellow-500);
+
+  ::v-deep(.p-card-content) {
+    padding: 0;
+  }
 }
 </style>

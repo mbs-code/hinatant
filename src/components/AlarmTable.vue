@@ -1,5 +1,10 @@
 <template>
-  <DataTable :value="items" responsive-layout="stack" breakpoint="800px">
+  <DataTable
+    :value="items"
+    responsive-layout="stack"
+    breakpoint="800px"
+    @row-reorder="onRowReorder"
+  >
     <template #header>
       <div class="flex align-items-center justify-content-between">
         <div>
@@ -16,6 +21,8 @@
         </div>
       </div>
     </template>
+
+    <Column row-reorder header-style="width: 3rem" :reorderable-column="false" />
 
     <Column field="name" header="名前" />
 
@@ -75,7 +82,7 @@
 </template>
 
 <script setup lang="ts">
-import DataTable from 'primevue/datatable'
+import DataTable, { DataTableRowReorderEvent } from 'primevue/datatable'
 import Column from 'primevue/column'
 import Button from 'primevue/button'
 
@@ -94,6 +101,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'edit', alarm?: Alarm): void,
+  (e: 'swap', dragAlarm: Alarm, dropAlarm: Alarm): void,
 }>()
 
 ///
@@ -129,10 +137,13 @@ const items = computed(() => {
   })
 })
 
-// const nextDate = computed(() => {
-//   return alarmAction.getNextDate(new Date(), props.alarm)
-// })
-
+const onRowReorder = (event: DataTableRowReorderEvent) => {
+  const drag = props.alarms.at(event.dragIndex)
+  const drop = props.alarms.at(event.dropIndex)
+  if (drag && drop) {
+    emit('swap', drag, drop)
+  }
+}
 
 ///
 

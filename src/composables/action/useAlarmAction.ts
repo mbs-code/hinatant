@@ -70,7 +70,6 @@ export const useAlarmAction = () => {
     })
   }
 
-
   return {
     getNextDates,
     getNextDate,

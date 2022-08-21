@@ -44,7 +44,9 @@ export const useAlarmBucket = () => {
     const bucket = await chrome.storage.local.get()
     const alarms = (bucket.alarms ?? []) as Alarm[]
 
-    return alarms.filter(alarm => !alarmIds || alarmIds.includes(alarm.id))
+    return alarms
+      .filter(alarm => !alarmIds || alarmIds.includes(alarm.id))
+      .sort((a, b) => a.sort - b.sort)
   }
 
   const create = async (param: AlarmParam) => {
@@ -126,11 +128,53 @@ export const useAlarmBucket = () => {
     await chrome.storage.local.remove('alarms')
   }
 
+  ///
+
+  const swap = async (alarmIdA: number, alarmIdB: number) => {
+    // 全件取得する
+    const alarms = await getAll()
+
+    // alarm を取り出す
+    const alarmIndexA = alarms.findIndex((al) => al.id === alarmIdA)
+    if (alarmIndexA === -1) {
+      throw new Error('更新対象が存在しません')
+    }
+    const alarmA = alarms[alarmIndexA]
+
+    const alarmIndexB = alarms.findIndex((al) => al.id === alarmIdB)
+    if (alarmIndexB === -1) {
+      throw new Error('更新対象が存在しません')
+    }
+    const alarmB = alarms[alarmIndexB]
+
+    // alarm の更新
+    const date = new Date()
+    const updAlarmA: Alarm = {
+      ...alarmA,
+      sort: alarmB.sort,
+      updatedAt: formatISO9075(date),
+    }
+    alarms.splice(alarmIndexA, 1, updAlarmA)
+
+    const updAlarmB: Alarm = {
+      ...alarmB,
+      sort: alarmA.sort,
+      updatedAt: formatISO9075(date),
+    }
+    alarms.splice(alarmIndexB, 1, updAlarmB)
+
+    // 置き換える
+    await chrome.storage.local.set({ alarms })
+
+    return [updAlarmA, updAlarmB]
+  }
+
   return {
     getAll,
     create,
     update,
     remove,
     clear,
+    swap,
   }
 }

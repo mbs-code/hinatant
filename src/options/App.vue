@@ -8,6 +8,7 @@
   <AlarmTable
     :alarms="alarms"
     @edit="openAlarmEditDialog($event)"
+    @swap="onSwapAlarm"
   />
 
   <pre>{{ alarms }}</pre>
@@ -26,7 +27,6 @@
 import AlarmEditDialog from '../components/AlarmEditDialog.vue'
 import Button from 'primevue/button'
 import Toast from 'primevue/toast'
-import Card from 'primevue/card'
 import ConfirmDialog from 'primevue/confirmdialog'
 
 import { onMounted, ref } from 'vue'
@@ -59,13 +59,22 @@ const openAlarmEditDialog = (alarm?: Alarm) => {
   showAlarmEditDialog.value = true
 }
 
+const onSwapAlarm = async (dragAlarm: Alarm, dropAlarm: Alarm) => {
+  try {
+    await alarmBucket.swap(dragAlarm.id, dropAlarm.id)
+    await fetchAlarms() // 更新
+  } catch (err) {
+    appToast.thrown(err)
+  }
+}
+
 ///
 
 const passing = usePassing()
 const onDbSeed = async () => {
   try {
     await passing.dbSeed()
-    await fetchAlarms()
+    await fetchAlarms() // 更新
   } catch (err) {
     appToast.thrown(err)
   }

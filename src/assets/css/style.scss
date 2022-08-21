@@ -29,6 +29,33 @@ a.no-decoration {
 }
 
 /// ////////////////////////////////////////
+/// 以下 Scrollbar の調整
+
+/* total width */
+::-webkit-scrollbar {
+  background-color: #fff;
+  width: 12px;
+  height: 12px;
+}
+
+/* background of the scrollbar except button or resizer */
+::-webkit-scrollbar-track {
+  background-color: #fff;
+}
+
+/* scrollbar itself */
+::-webkit-scrollbar-thumb {
+  background-color: #cfcfd3;
+  border-radius: 12px;
+  border: 3px solid #fff;
+}
+
+/* set button(top and bottom of the scrollbar) */
+::-webkit-scrollbar-button {
+  display:none;
+}
+
+/// ////////////////////////////////////////
 /// 以下 PrimeVue の調整
 
 .p-dialog {
@@ -42,5 +69,16 @@ a.no-decoration {
   .p-dialog-footer {
     padding: 1rem;
     border-top: var(--surface-border) 1px solid;
+  }
+}
+
+.p-sidebar {
+  .p-sidebar-header {
+    padding: 0.5rem 1rem;
+    border-bottom: var(--surface-border) 1px solid;
+    justify-content: space-between
+  }
+  .p-sidebar-content {
+    padding: 1rem !important;
   }
 }

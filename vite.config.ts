@@ -6,7 +6,11 @@ import vue from '@vitejs/plugin-vue'
 const manifest = defineManifest({
   manifest_version: 3,
   name: 'hinatant',
+  description: 'Alarm and automatic opener.',
   version: '1.0.0',
+  icons: {
+    128: 'src/assets/icon128.png'
+  },
   permissions: [
     'alarms',
     'tabs',

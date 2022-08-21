@@ -11,7 +11,10 @@
 
   <div>
     <template v-for="(alarm, _) of alarms" :key="_">
-      <AlarmPanel :alarm="alarm" @edit="openAlarmEditDoalog(alarm)" />
+      <AlarmPanel
+        :alarm="alarm"
+        @edit="openAlarmEditDoalog(alarm)"
+      />
     </template>
   </div>
 

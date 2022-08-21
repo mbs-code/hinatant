@@ -45,7 +45,6 @@ chrome.runtime.onInstalled.addListener(async () => {
   // 初回実行時間を算出
   const sec = now.getSeconds()
   const when = addSeconds(now, (60 - sec) + 5) // 負荷対策に5秒遅らす
-  console.log('[back] waitAfter:', when)
 
   // when から一分おきに実行
   chrome.alarms.create('check', { when:  when.getTime(), periodInMinutes : 1 })
@@ -55,11 +54,9 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
   if (alarm.name !== 'check') { return }
 
   const now = new Date(alarm.scheduledTime)
-  console.log('[back] checkAlarm:', now)
 
   const lastCalledAt = await runtimeBucket.getLastCalledAt()
   if (!lastCalledAt) {
-    console.log('[back] err: lastCalledAt is undefined')
     await runtimeBucket.setLastCalledAt(now)
     return
   }
@@ -71,17 +68,9 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
       return nextCalledAt && nextCalledAt <= now
     })
 
-  console.log('[back] targetAlarm:', calledAlarms.length)
   if (calledAlarms.length) {
-    // TODO: 自動起動未実装
-
     const alarmIds = calledAlarms.map(alarm => alarm.id)
-    const params = new URLSearchParams({
-      date: String(new Date().getTime()),
-      alarms: JSON.stringify(alarmIds),
-    })
-
-    await chrome.tabs.create({ 'url': `/src/toast/index.html?${params.toString()}` })
+    await alarmAction.openAlarms(lastCalledAt, now, alarmIds)
   }
 
   // 実行記録を付ける

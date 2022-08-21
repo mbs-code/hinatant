@@ -1,5 +1,25 @@
 <template>
-  時間になりました
+  <div class="flex justify-content-center">
+    <div class="flex flex-column gap-2 col-12 md:col-10 lg:col-8 xl:col-8">
+      <NotifyTimeCard :date="params.invokeDate" />
+
+      <div class="my-3">
+        <template v-for="(alarm, _) of params.alarms" :key="_">
+          <NotifyAlarmCard
+            :alarm="alarm"
+            :base-date="params.lastCalledDate"
+          />
+        </template>
+      </div>
+
+      <Button
+        class="p-button-raised p-button-text"
+        label="閉じる"
+        icon="pi pi-times"
+        @click="onClose"
+      />
+    </div>
+  </div>
 
   <pre>{{ params }}</pre>
 
@@ -7,13 +27,20 @@
 </template>
 
 <script setup lang="ts">
+import Button from 'primevue/button'
+import Toast from 'primevue/toast'
+import NotifyAlarmCard from '../components/notify/NotifyAlarmCard.vue'
+
 import { onMounted, reactive } from 'vue'
 import { Alarm, useAlarmBucket } from '../composables/storage/useAlarmBucket'
 import { useAppToast } from '../composables/useAppToast'
+import NotifyTimeCard from '../components/notify/NotifyTimeCard.vue'
 
+// URL params
 const params = reactive<{
-  date?: Date,
-  alarms?: Alarm[]
+  lastCalledDate?: Date,
+  invokeDate?: Date,
+  alarms?: Alarm[],
 }>({})
 
 const alarmBucket = useAlarmBucket()
@@ -25,10 +52,16 @@ onMounted(async () => {
     const url = new URL(window.location.href)
     const sp = url.searchParams
 
+    // 前回呼び出した日付を取り出す
+    const lastCalledAt = sp.get('called_at')
+    if (lastCalledAt) {
+      params.lastCalledDate = new Date(Number(lastCalledAt))
+    }
+
     // 実行した日付を取り出す
-    const date = sp.get('date')
-    if (date) {
-      params.date = new Date(Number(date))
+    const invokeAt = sp.get('invoke_at')
+    if (invokeAt) {
+      params.invokeDate = new Date(Number(invokeAt))
     }
 
     // 対象の alarm を取り出す
@@ -41,4 +74,8 @@ onMounted(async () => {
     appToast.thrown(err)
   }
 })
+
+const onClose = () => {
+  window.close()
+}
 </script>

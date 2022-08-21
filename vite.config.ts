@@ -14,7 +14,7 @@ const manifest = defineManifest({
     'unlimitedStorage',
   ],
   host_permissions: [
-    'https://www.hinatazaka46.com/*',
+    '<all_urls>',
   ],
   action: {
     default_popup: 'src/popup/index.html',

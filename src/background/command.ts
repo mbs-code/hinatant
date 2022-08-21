@@ -1,5 +1,8 @@
-export const commands = {
-  dbSeed: async (request: any, sender: any) => {
+export const commands: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: (request?: any, sender?: any) => Promise<unknown>
+} = {
+  dbSeed: async () => {
     await chrome.storage.local.clear()
     await chrome.storage.local.set({ 'alarms': [
       {
@@ -7,7 +10,7 @@ export const commands = {
         sort: 1,
         name: 'テスト',
         url: 'https://www.hinatazaka46.com/s/official/?ima=0000',
-        note: 'めもだよー\n改行実験',
+        note: 'めもだよー\n改行実験\n展開テスト：https://ogp.me/',
 
         weekOfDays: [0, 6],
         dates: ['2022-08-20'],

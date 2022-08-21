@@ -8,6 +8,10 @@
     <Button @click="emit('edit')">
       edit
     </Button>
+
+    <Button @click="onTestAlarm">
+      test
+    </Button>
   </div>
 </template>
 
@@ -32,4 +36,8 @@ const alarmAction = useAlarmAction()
 const nextDate = computed(() => {
   return alarmAction.getNextDate(new Date(), props.alarm)
 })
+
+const onTestAlarm = async () => {
+  await alarmAction.openAlarms(new Date(), new Date(), [props.alarm.id])
+}
 </script>

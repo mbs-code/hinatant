@@ -1,0 +1,46 @@
+@use 'primevue/resources/themes/saga-blue/theme.css';
+@use 'primevue/resources/primevue.min.css';
+@use 'primeicons/primeicons.css';
+@use 'primeflex/primeflex.css';
+
+html {
+  min-width: 320px;
+  background-color: var(--surface-ground);
+}
+
+.field-horizontal {
+  margin-bottom: 0.5rem;
+
+  label {
+    margin-bottom: 0;
+  }
+}
+
+a.no-decoration {
+  text-decoration: none;
+}
+
+.ja-break-word {
+  overflow-wrap: break-word; word-break: keep-all;
+}
+
+.en-break-word {
+  word-break: break-all;
+}
+
+/// ////////////////////////////////////////
+/// 以下 PrimeVue の調整
+
+.p-dialog {
+  .p-dialog-header {
+    padding: 1rem;
+    border-bottom: var(--surface-border) 1px solid;
+  }
+  .p-dialog-content {
+    padding: 1rem;
+  }
+  .p-dialog-footer {
+    padding: 1rem;
+    border-top: var(--surface-border) 1px solid;
+  }
+}

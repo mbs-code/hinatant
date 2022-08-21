@@ -1,32 +1,21 @@
 <template>
   <Dialog
     v-model:visible="_visible"
-    header="アラームダイアログ"
     :style="{ width: '80vw' }"
     :draggable="false"
     modal
   >
+    <template #header>
+      <div class="text-2xl font-bold">
+        <span><i class="pi pi-bell" /></span>
+        アラーム編集
+      </div>
+    </template>
+
     <div class="field grid field-horizontal">
       <label>名前*</label>
       <div class="col">
         <InputText v-model="form.name" class="w-full" autofocus />
-      </div>
-    </div>
-
-    <div class="field grid field-horizontal">
-      <label>時間*</label>
-      <div class="col col-narrow">
-        <div class="p-inputgroup">
-          <span class="p-inputgroup-addon">
-            <i class="pi pi-clock" />
-          </span>
-
-          <Calendar
-            v-model="_formTime"
-            :manual-input="false"
-            :time-only="true"
-          />
-        </div>
       </div>
     </div>
 
@@ -70,6 +59,23 @@
             :inline="true"
           />
         </OverlayPanel>
+      </div>
+    </div>
+
+    <div class="field grid field-horizontal">
+      <label>時間*</label>
+      <div class="col col-narrow">
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon">
+            <i class="pi pi-clock" />
+          </span>
+
+          <Calendar
+            v-model="_formTime"
+            :manual-input="false"
+            :time-only="true"
+          />
+        </div>
       </div>
     </div>
 
@@ -125,7 +131,7 @@
 
     <template #footer>
       <div class="flex">
-        <Button class="p-button-text p-button-danger" @click="onDelete">
+        <Button v-if="alarm?.id" class="p-button-text p-button-danger" @click="onDelete">
           Delete
         </Button>
         <Button class="p-button-text p-button-plain" @click="onInit">

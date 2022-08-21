@@ -1,22 +1,16 @@
 <template>
   <div class="flex gap-2">
-    <Button @click="openAlarmEditDoalog()">
-      新規追加
-    </Button>
-
     <Button @click="onDbSeed">
       テストDB作成
     </Button>
   </div>
 
-  <div>
-    <template v-for="(alarm, _) of alarms" :key="_">
-      <AlarmPanel
-        :alarm="alarm"
-        @edit="openAlarmEditDoalog(alarm)"
-      />
-    </template>
-  </div>
+  <AlarmTable
+    :alarms="alarms"
+    @edit="openAlarmEditDialog($event)"
+  />
+
+  <pre>{{ alarms }}</pre>
 
   <AlarmEditDialog
     v-model:visible="showAlarmEditDialog"
@@ -29,16 +23,17 @@
 </template>
 
 <script setup lang="ts">
-import AlarmPanel from '../components/AlarmPanel.vue'
 import AlarmEditDialog from '../components/AlarmEditDialog.vue'
 import Button from 'primevue/button'
 import Toast from 'primevue/toast'
+import Card from 'primevue/card'
 import ConfirmDialog from 'primevue/confirmdialog'
 
 import { onMounted, ref } from 'vue'
 import { Alarm, useAlarmBucket } from '../composables/storage/useAlarmBucket'
 import { usePassing } from '../composables/usePassing'
 import { useAppToast } from '../composables/useAppToast'
+import AlarmTable from '../components/AlarmTable.vue'
 
 const appToast = useAppToast()
 const alarmBucket = useAlarmBucket()
@@ -59,7 +54,7 @@ onMounted(async () => await fetchAlarms())
 const showAlarmEditDialog = ref<boolean>(false)
 const selectedAlarm = ref<Alarm>()
 
-const openAlarmEditDoalog = (alarm?: Alarm) => {
+const openAlarmEditDialog = (alarm?: Alarm) => {
   selectedAlarm.value = alarm
   showAlarmEditDialog.value = true
 }

@@ -16,7 +16,9 @@
     <template #content>
       <template v-for="(block, _) of noteBlocks" :key="_">
         <OgCard v-if="block.type === 'og'" :url="block.value" />
+
         <br v-if="block.type === 'br'">
+
         <span v-if="block.type === 'text'">{{ block.value }}</span>
       </template>
     </template>

@@ -1,8 +1,18 @@
 <template>
   <Card>
     <template #content>
-      <div class="text-center ja-break-word text-2xl font-bold">
-        <div>{{ dateStr }}</div>
+      <div class="flex align-items-center">
+        <div class="w-2rem h-2rem" />
+
+        <span class="flex-grow-1 text-center ja-break-word text-2xl font-bold">
+          {{ dateStr }} のアラーム
+        </span>
+
+        <Button
+          class="w-2rem h-2rem p-button-text p-button-plain"
+          icon="pi pi-times"
+          @click="emit('close')"
+        />
       </div>
     </template>
   </Card>
@@ -10,6 +20,7 @@
 
 <script setup lang="ts">
 import Card from 'primevue/card'
+import Button from 'primevue/button'
 
 import { computed } from 'vue'
 import { // TODO: この辺 composable 化する
@@ -19,6 +30,10 @@ import { ja } from 'date-fns/locale'
 
 const props = defineProps<{
   date?: Date,
+}>()
+
+const emit = defineEmits<{
+  (e: 'close'): void,
 }>()
 
 const dateStr = computed(() => {

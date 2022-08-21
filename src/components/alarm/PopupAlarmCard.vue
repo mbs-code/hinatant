@@ -1,5 +1,5 @@
 <template>
-  <Card>
+  <Card class="en-break-word" @click="emit('open')">
     <template #title>
       {{ alarm.name }}
     </template>
@@ -14,7 +14,9 @@
         <span v-else>-</span>
       </IconText>
 
-      <IconText icon="pi pi-link" :label="alarm.url" />
+      <IconText icon="pi pi-link">
+        <span class="underline">{{ alarm.url }}</span>
+      </IconText>
     </template>
   </Card>
 </template>
@@ -36,12 +38,11 @@ const props = defineProps<{
   alarm: Alarm,
 }>()
 
-// const emit = defineEmits<{
-//   (e: 'edit', alarm?: Alarm): void,
-//   (e: 'swap', dragAlarm: Alarm, dropAlarm: Alarm): void,
-// }>()
+const emit = defineEmits<{
+  (e: 'open'): void,
+}>()
 
-// ///
+///
 
 const alarmAction = useAlarmAction()
 const next = computed(() => {
@@ -60,10 +61,13 @@ const next = computed(() => {
 
 <style scoped lang="scss">
 .p-card  {
-  padding: 1rem;
+  border: 2px solid var(--surface-border);
 
+  :hover {
+    background-color: var(--surface-ground);
+  }
   ::v-deep(.p-card-body) {
-    padding: 0;
+    padding: 1rem;
   }
   ::v-deep(.p-card-content) {
     padding: 0;

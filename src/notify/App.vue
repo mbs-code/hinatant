@@ -1,7 +1,10 @@
 <template>
   <div class="flex justify-content-center">
     <div class="flex flex-column gap-4 col-12 md:col-10 lg:col-8 xl:col-8">
-      <NotifyTimeCard :date="params.invokeDate" />
+      <NotifyTimeCard
+        :date="params.invokeDate"
+        @close="onCloseWindow"
+      />
 
       <template v-for="(alarm, _) of params.alarms" :key="_">
         <NotifyAlarmCard
@@ -9,21 +12,11 @@
           :base-date="params.lastCalledDate"
         />
       </template>
-
-      <Button
-        class="p-button-raised p-button-text"
-        label="閉じる"
-        icon="pi pi-times"
-        @click="onClose"
-      />
     </div>
   </div>
-
-  <pre>{{ params }}</pre>
 </template>
 
 <script setup lang="ts">
-import Button from 'primevue/button'
 import NotifyAlarmCard from '../components/notify/NotifyAlarmCard.vue'
 
 import { onMounted, reactive } from 'vue'
@@ -70,7 +63,7 @@ onMounted(async () => {
   }
 })
 
-const onClose = () => {
+const onCloseWindow = () => {
   window.close()
 }
 </script>

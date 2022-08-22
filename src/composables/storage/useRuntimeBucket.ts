@@ -1,4 +1,5 @@
 import { formatISO9075 } from 'date-fns'
+import prettyBytes from 'pretty-bytes'
 
 export const useRuntimeBucket = () => {
   const getLastCalledAt = async () => {
@@ -11,7 +12,6 @@ export const useRuntimeBucket = () => {
   }
 
   const setLastCalledAt = async (date: Date) => {
-    console.log('[back] setLastCalled:', date)
     const value = formatISO9075(date)
     await chrome.storage.local.set({ lastCalledAt: value })
 
@@ -22,9 +22,30 @@ export const useRuntimeBucket = () => {
     await chrome.storage.local.remove('lastCalledAt')
   }
 
+  ///
+
+  const getDebugData = async () => {
+    const buckets = await chrome.storage.local.get()
+    const alarms = await chrome.alarms.getAll()
+
+    const storageLength = await chrome.storage.local.getBytesInUse()
+
+    const man = chrome.runtime.getManifest()
+    const manifest = {
+      name: man.name,
+      description: man.description,
+      version: man.version,
+      storage: prettyBytes(storageLength),
+    }
+
+    return { manifest, alarms, buckets }
+  }
+
   return {
     getLastCalledAt,
     setLastCalledAt,
     clear,
+
+    getDebugData,
   }
 }

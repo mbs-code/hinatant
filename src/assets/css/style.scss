@@ -29,6 +29,41 @@ a.no-decoration {
 }
 
 /// ////////////////////////////////////////
+/// 以下 水平フォーム
+
+.field-horizontal {
+  display: flex;
+  align-items: center;
+  height: 2.625rem;
+
+  label:first-child {
+    width: 180px; // 横幅
+  }
+
+  .p-inputgroup {
+    align-items: center;
+    width: unset;
+  }
+
+  .p-inputgroup-addon {
+    height: 2.625rem;
+  }
+
+  .p-component {
+    height: 2.625rem;
+
+    &.p-checkbox {
+      align-items: center;
+      margin-right: 0.25rem;
+    }
+
+    &.p-inputnumber .p-inputnumber-button {
+      border-radius: 0;
+    }
+  }
+}
+
+/// ////////////////////////////////////////
 /// 以下 Scrollbar の調整
 
 /* total width */

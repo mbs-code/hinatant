@@ -41,7 +41,7 @@ const validate = (alarms: Alarm[], alarm: Alarm) => {
 
 export const useAlarmBucket = () => {
   const getAll = async (alarmIds?: number[]) => {
-    const bucket = await chrome.storage.local.get()
+    const bucket = await chrome.storage.local.get('alarms')
     const alarms = (bucket.alarms ?? []) as Alarm[]
 
     return alarms

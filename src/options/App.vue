@@ -5,7 +5,7 @@
     @swap="onSwapAlarm"
   />
 
-  <ConfigEditPanel />
+  <OptionsConfigCard />
 
   <AlarmEditDialog
     v-model:visible="showAlarmEditDialog"
@@ -22,7 +22,7 @@ import AlarmEditDialog from '../components/alarm/AlarmEditDialog.vue'
 import Toast from 'primevue/toast'
 import ConfirmDialog from 'primevue/confirmdialog'
 import AlarmTable from '../components/alarm/AlarmTable.vue'
-import ConfigEditPanel from '../components/options/ConfigEditPanel.vue'
+import OptionsConfigCard from '../components/options/OptionsConfigCard.vue'
 
 import { onMounted, ref } from 'vue'
 import { Alarm, useAlarmBucket } from '../composables/storage/useAlarmBucket'

@@ -43,15 +43,10 @@ const props = defineProps<{
   baseDate?: Date,
 }>()
 
-const alarmAction = useAlarmAction()
-const nextEventAt = computed(() => {
-  return alarmAction.getNextDate((props.baseDate ?? new Date()), props.alarm, true)
-})
-
 const eventDateStr = computed(() => {
-  const next = nextEventAt.value
-  if (next) {
-    const datetime = dateFormat(next, 'M/d (E) HH:mm', { locale: ja })
+  const called = props.baseDate ?? new Date()
+  if (called) {
+    const datetime = dateFormat(called, 'M/d (E) HH:mm', { locale: ja })
     return `${datetime}～`
   }
 
@@ -59,9 +54,9 @@ const eventDateStr = computed(() => {
 })
 
 const eventDateDurationStr = computed(() => {
-  const next = nextEventAt.value
-  if (next) {
-    const duration = formatDistanceToNow(next, { locale: ja, addSuffix: true })
+  const called = props.baseDate ?? new Date()
+  if (called) {
+    const duration = formatDistanceToNow(called, { locale: ja, addSuffix: true })
     return duration
   }
 

@@ -1,6 +1,8 @@
 import { formatISO9075 } from 'date-fns'
 import prettyBytes from 'pretty-bytes'
 
+export type AppAlarm = chrome.alarms.Alarm
+
 export const useRuntimeBucket = () => {
   const getLastCalledAt = async () => {
     const bucket = await chrome.storage.local.get('lastCalledAt')
@@ -24,18 +26,30 @@ export const useRuntimeBucket = () => {
 
   ///
 
+  const getStorageUsed = async () => {
+    const bytes = await chrome.storage.local.getBytesInUse()
+    return {
+      bytes: bytes,
+      pretty: prettyBytes(bytes),
+    }
+  }
+
+  const getAlarmData = async () => {
+    const alarms = await chrome.alarms.getAll()
+    return alarms
+  }
+
   const getDebugData = async () => {
     const buckets = await chrome.storage.local.get()
-    const alarms = await chrome.alarms.getAll()
-
-    const storageLength = await chrome.storage.local.getBytesInUse()
+    const alarms = await getAlarmData()
+    const storage = await getStorageUsed()
 
     const man = chrome.runtime.getManifest()
     const manifest = {
       name: man.name,
       description: man.description,
       version: man.version,
-      storage: prettyBytes(storageLength),
+      storage: storage.bytes,
     }
 
     return { manifest, alarms, buckets }
@@ -46,6 +60,8 @@ export const useRuntimeBucket = () => {
     setLastCalledAt,
     clear,
 
+    getStorageUsed,
+    getAlarmData,
     getDebugData,
   }
 }

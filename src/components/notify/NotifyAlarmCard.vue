@@ -29,7 +29,6 @@
 import Card from 'primevue/card'
 
 import { Alarm } from '../../composables/storage/useAlarmBucket'
-import { useAlarmAction } from '../../composables/action/useAlarmAction'
 import { computed } from 'vue'
 import { // TODO: この辺 composable 化する
   format as dateFormat,

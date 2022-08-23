@@ -4,6 +4,7 @@
     :style="{ width: '80vw' }"
     :draggable="false"
     modal
+    dismissable-mask
   >
     <template #header>
       <div class="text-2xl font-bold">

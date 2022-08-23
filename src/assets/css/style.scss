@@ -36,7 +36,7 @@ a.no-decoration {
   align-items: center;
   height: 2.625rem;
 
-  label:first-child {
+  > label:first-child {
     width: 180px; // 横幅
   }
 

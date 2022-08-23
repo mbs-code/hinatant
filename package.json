@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "nodemon --ignore * --exec yarn vite",
+    "dev": "vite",
+    "watch": "node ./watch.js",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "eslint src/**/*.{ts,vue}",
